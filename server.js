@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 
 import pgclient from "./db/db.js";
 
+import categoryRoutes from "./routes/categories.js";
+import skillRoutes from "./routes/skills.js";
+import organizationTypeRoutes from "./routes/organizationTypes.js";
 
 dotenv.config();
 
@@ -17,6 +20,9 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.use("/api/categories", categoryRoutes);
+app.use("/api/skills", skillRoutes);
+app.use("/api/organization-types", organizationTypeRoutes);
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
