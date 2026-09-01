@@ -11,6 +11,7 @@ import organizationTypeRoutes from "./routes/organizationTypes.js";
 import authRoutes from "./routes/auth.js";
 import volunteerRoutes from "./routes/volunteers.js";
 import organizationRoutes from "./routes/organizations.js";
+import opportunityRoutes from "./routes/opportunities.js";
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ app.use("/api/organization-types", organizationTypeRoutes);
 
 app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/organizations", organizationRoutes);
+
+app.use("/api/opportunities", opportunityRoutes);
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
