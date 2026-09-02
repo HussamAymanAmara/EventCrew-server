@@ -40,7 +40,8 @@ router.get("/", async (req, res) => {
         compensation,
         date,
         sort,
-        organization_id
+        organization_id,
+        is_featured
     } = req.query;
 
 
@@ -87,6 +88,11 @@ router.get("/", async (req, res) => {
     if (organization_id) {
         values.push(organization_id);
         query += ` AND organization_id = $${values.length}`;
+    }
+
+    if (is_featured) {
+        values.push(is_featured);
+        query += ` AND is_featured = $${values.length}`;
     }
 
     if (sort === "date_asc") {
