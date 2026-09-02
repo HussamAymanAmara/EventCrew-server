@@ -1,5 +1,6 @@
 import express from "express";
 import pgclient from "../db/db.js";
+import volunteerAuth from "../middleware/volunteerAuth.js";
 
 const router = express.Router();
 
@@ -37,8 +38,8 @@ router.get("/:id", async (req, res) => {
 // localhost:5000/api/volunteers/1
 // PUT
 // Update volunteer profile
-router.put("/:id", async (req, res) => {
-
+// router.put("/:id", async (req, res) => {
+router.put("/:id", volunteerAuth, async (req, res) => {
     const {
         first_name,
         last_name,

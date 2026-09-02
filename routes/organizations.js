@@ -1,5 +1,6 @@
 import express from "express";
 import pgclient from "../db/db.js";
+import organizationAuth from "../middleware/organizationAuth.js";
 
 const router = express.Router();
 
@@ -37,7 +38,8 @@ router.get("/:id", async (req, res) => {
 // localhost:5000/api/organizations/2
 // PUT
 // Update organization profile
-router.put("/:id", async (req, res) => {
+// router.put("/:id", async (req, res) => {
+router.put("/:id", organizationAuth, async (req, res) => {
 
     const {
         organization_name,
