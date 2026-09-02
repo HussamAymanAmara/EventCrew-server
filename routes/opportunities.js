@@ -45,67 +45,91 @@ router.get("/", async (req, res) => {
     } = req.query;
 
 
-    let query = "SELECT * FROM opportunities WHERE 1=1";
+    let query = `
+    SELECT
+        o.*,
+
+        (
+            SELECT COUNT(*)
+            FROM applications a
+            WHERE a.opportunity_id = o.opportunity_id
+            AND a.status IN ('approved', 'confirmed')
+        ) AS accepted_volunteers,
+
+        GREATEST(
+            o.volunteers_needed -
+            (
+                SELECT COUNT(*)
+                FROM applications a
+                WHERE a.opportunity_id = o.opportunity_id
+                AND a.status IN ('approved', 'confirmed')
+            ),
+            0
+        ) AS spots_remaining
+
+    FROM opportunities o
+    WHERE 1=1
+`;
 
     const values = [];
 
 
     if (search) {
         values.push(`%${search}%`);
-        query += ` AND title ILIKE $${values.length}`;
+        query += ` AND o.title ILIKE $${values.length}`;
     }
 
 
     if (category_id) {
         values.push(category_id);
-        query += ` AND category_id = $${values.length}`;
+        query += ` AND o.category_id = $${values.length}`;
     }
 
 
     if (city) {
         values.push(city);
-        query += ` AND city = $${values.length}`;
+        query += ` AND o.city = $${values.length}`;
     }
 
 
     if (status) {
         values.push(status);
-        query += ` AND listing_status = $${values.length}`;
+        query += ` AND o.listing_status = $${values.length}`;
     }
 
 
     if (compensation) {
         values.push(compensation);
-        query += ` AND compensation_type = $${values.length}`;
+        query += ` AND o.compensation_type = $${values.length}`;
     }
 
 
     if (date) {
         values.push(date);
-        query += ` AND event_date = $${values.length}`;
+        query += ` AND o.event_date = $${values.length}`;
     }
 
     if (organization_id) {
         values.push(organization_id);
-        query += ` AND organization_id = $${values.length}`;
+        query += ` AND o.organization_id = $${values.length}`;
     }
 
     if (is_featured) {
         values.push(is_featured);
-        query += ` AND is_featured = $${values.length}`;
+        query += ` AND o.is_featured = $${values.length}`;
     }
 
     if (sort === "date_asc") {
-        query += " ORDER BY event_date ASC";
+        query += " ORDER BY o.event_date ASC";
     }
     else if (sort === "date_desc") {
-        query += " ORDER BY event_date DESC";
+        query += " ORDER BY o.event_date DESC";
     }
     else if (sort === "newest") {
-        query += " ORDER BY created_at DESC";
+        query += " ORDER BY o.created_at DESC";
     }
     else {
-        query += " ORDER BY opportunity_id";
+        query += " ORDER BY o.opportunity_id";
     }
 
 
