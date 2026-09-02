@@ -4,7 +4,6 @@ import organizationAuth from "../middleware/organizationAuth.js";
 
 const router = express.Router();
 
-
 // localhost:5000/api/opportunities/1
 // GET
 // Get opportunity by ID
@@ -27,70 +26,11 @@ router.get("/:id", async (req, res) => {
 
 });
 
-
-// // localhost:5000/api/opportunities
-// // GET
-// // Get all opportunities with filters
-// router.get("/", async (req, res) => {
-
-//     const {
-//         search,
-//         category_id,
-//         city,
-//         status,
-//         compensation
-//     } = req.query;
-
-
-//     let query = "SELECT * FROM opportunities WHERE 1=1";
-
-//     const values = [];
-
-
-//     if (search) {
-//         values.push(`%${search}%`);
-//         query += ` AND title ILIKE $${values.length}`;
-//     }
-
-
-//     if (category_id) {
-//         values.push(category_id);
-//         query += ` AND category_id = $${values.length}`;
-//     }
-
-
-//     if (city) {
-//         values.push(city);
-//         query += ` AND city = $${values.length}`;
-//     }
-
-
-//     if (status) {
-//         values.push(status);
-//         query += ` AND listing_status = $${values.length}`;
-//     }
-
-
-//     if (compensation) {
-//         values.push(compensation);
-//         query += ` AND compensation_type = $${values.length}`;
-//     }
-
-
-//     query += " ORDER BY opportunity_id";
-
-
-//     const result = await pgclient.query(query, values);
-
-//     res.json(result.rows);
-
-// });
-
-
 // localhost:5000/api/opportunities
 // GET
 // Get all opportunities with filters and sorting
 router.get("/", async (req, res) => {
+
 
     const {
         search,
@@ -99,7 +39,8 @@ router.get("/", async (req, res) => {
         status,
         compensation,
         date,
-        sort
+        sort,
+        organization_id
     } = req.query;
 
 
@@ -143,6 +84,10 @@ router.get("/", async (req, res) => {
         query += ` AND event_date = $${values.length}`;
     }
 
+    if (organization_id) {
+        values.push(organization_id);
+        query += ` AND organization_id = $${values.length}`;
+    }
 
     if (sort === "date_asc") {
         query += " ORDER BY event_date ASC";
