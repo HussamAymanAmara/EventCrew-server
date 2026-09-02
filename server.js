@@ -14,6 +14,7 @@ import organizationRoutes from "./routes/organizations.js";
 
 import opportunityRoutes from "./routes/opportunities.js";
 import applicationRoutes from "./routes/applications.js";
+import attendanceRoutes from "./routes/attendance.js";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.use("/api/organizations", organizationRoutes);
 
 app.use("/api/opportunities", opportunityRoutes);
 app.use("/api/applications", applicationRoutes);
+app.use("/api/attendance", attendanceRoutes);
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
