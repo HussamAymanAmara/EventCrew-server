@@ -17,7 +17,7 @@ import applicationRoutes from "./routes/applications.js";
 import attendanceRoutes from "./routes/attendance.js";
 import savedOpportunityRoutes from "./routes/savedOpportunities.js";
 import certificateRoutes from "./routes/certificates.js";
-
+import reportRoutes from "./routes/reports.js";
 
 dotenv.config();
 
@@ -44,6 +44,7 @@ app.use("/api/applications", applicationRoutes);
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/saved-opportunities", savedOpportunityRoutes);
 app.use("/api/certificates", certificateRoutes);
+app.use("/api/reports", reportRoutes);
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
