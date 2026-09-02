@@ -23,6 +23,8 @@ import volunteerDetailsRoutes from "./routes/volunteerDetails.js";
 import organizationDetailsRoutes from "./routes/organizationDetails.js";
 import opportunityDetailsRoutes from "./routes/opportunityDetails.js";
 
+import dashboardRoutes from "./routes/dashboard.js";
+
 dotenv.config();
 
 const app = express();
@@ -53,6 +55,8 @@ app.use("/api/reports", reportRoutes);
 app.use("/api/volunteers", volunteerDetailsRoutes);
 app.use("/api/organizations", organizationDetailsRoutes);
 app.use("/api/opportunities", opportunityDetailsRoutes);
+
+app.use("/api/dashboard", dashboardRoutes);
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
