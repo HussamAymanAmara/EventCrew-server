@@ -19,6 +19,9 @@ import savedOpportunityRoutes from "./routes/savedOpportunities.js";
 import certificateRoutes from "./routes/certificates.js";
 import reportRoutes from "./routes/reports.js";
 
+import volunteerDetailsRoutes from "./routes/volunteerDetails.js";
+import organizationDetailsRoutes from "./routes/organizationDetails.js";
+
 dotenv.config();
 
 const app = express();
@@ -45,6 +48,10 @@ app.use("/api/attendance", attendanceRoutes);
 app.use("/api/saved-opportunities", savedOpportunityRoutes);
 app.use("/api/certificates", certificateRoutes);
 app.use("/api/reports", reportRoutes);
+
+app.use("/api/volunteers", volunteerDetailsRoutes);
+app.use("/api/organizations", organizationDetailsRoutes);
+
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
