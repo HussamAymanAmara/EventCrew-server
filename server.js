@@ -27,6 +27,8 @@ import dashboardRoutes from "./routes/dashboard.js";
 
 import volunteerHistoryRoutes from "./routes/volunteerHistory.js";
 
+import passwordResetRoutes from "./routes/passwordReset.js";
+
 dotenv.config();
 
 const app = express();
@@ -60,6 +62,7 @@ app.use("/api/opportunities", opportunityDetailsRoutes);
 
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/volunteers", volunteerHistoryRoutes);
+app.use("/api/password-reset", passwordResetRoutes);
 
 app.get("/", (req, res) => {
     res.send("EventCrew API is running");
