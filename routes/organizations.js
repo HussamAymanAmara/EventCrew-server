@@ -24,11 +24,15 @@ router.get("/:id", async (req, res) => {
         [req.params.id]
     );
 
+
     if (result.rows.length === 0) {
+
         return res.status(404).json({
             message: "Organization not found"
         });
+
     }
+
 
     res.json(result.rows[0]);
 
@@ -38,7 +42,6 @@ router.get("/:id", async (req, res) => {
 // localhost:5000/api/organizations/2
 // PUT
 // Update organization profile
-// router.put("/:id", async (req, res) => {
 router.put("/:id", organizationAuth, async (req, res) => {
 
     const {
@@ -46,7 +49,6 @@ router.put("/:id", organizationAuth, async (req, res) => {
         organization_type_id,
         logo_url,
         tagline,
-        year_established,
         organization_size,
         about_organization,
         contact_person,
@@ -56,75 +58,116 @@ router.put("/:id", organizationAuth, async (req, res) => {
         website,
         office_street_address,
         office_city,
-        office_state,
-        office_postcode,
-        latitude,
-        longitude,
-        facebook_url,
-        instagram_url,
-        linkedin_url
+        office_area
     } = req.body;
 
-    const result = await pgclient.query(
-        `UPDATE organization_profiles
-         SET organization_name = $1,
-             organization_type_id = $2,
-             logo_url = $3,
-             tagline = $4,
-             year_established = $5,
-             organization_size = $6,
-             about_organization = $7,
-             contact_person = $8,
-             contact_job_title = $9,
-             contact_email = $10,
-             phone = $11,
-             website = $12,
-             office_street_address = $13,
-             office_city = $14,
-             office_state = $15,
-             office_postcode = $16,
-             latitude = $17,
-             longitude = $18,
-             facebook_url = $19,
-             instagram_url = $20,
-             linkedin_url = $21
-         WHERE organization_id = $22
-         RETURNING *`,
-        [
-            organization_name,
-            organization_type_id,
-            logo_url,
-            tagline,
-            year_established,
-            organization_size,
-            about_organization,
-            contact_person,
-            contact_job_title,
-            contact_email,
-            phone,
-            website,
-            office_street_address,
-            office_city,
-            office_state,
-            office_postcode,
-            latitude,
-            longitude,
-            facebook_url,
-            instagram_url,
-            linkedin_url,
-            req.params.id
-        ]
-    );
 
-    if (result.rows.length === 0) {
-        return res.status(404).json({
-            message: "Organization not found"
+    try {
+
+        const result = await pgclient.query(
+            `UPDATE organization_profiles
+             SET organization_name = $1,
+                 organization_type_id = $2,
+                 logo_url = $3,
+                 tagline = $4,
+                 organization_size = $5,
+                 about_organization = $6,
+                 contact_person = $7,
+                 contact_job_title = $8,
+                 contact_email = $9,
+                 phone = $10,
+                 website = $11,
+                 office_street_address = $12,
+                 office_city = $13,
+                 office_area = $14
+             WHERE organization_id = $15
+             RETURNING *`,
+            [
+                organization_name,
+                organization_type_id,
+                logo_url,
+                tagline,
+                organization_size,
+                about_organization,
+                contact_person,
+                contact_job_title,
+                contact_email,
+                phone,
+                website,
+                office_street_address,
+                office_city,
+                office_area,
+                req.params.id
+            ]
+        );
+
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                message: "Organization not found"
+            });
+
+        }
+
+
+        res.json({
+            organization: result.rows[0]
         });
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Could not update organization profile"
+        });
+
     }
 
-    res.json({
-        organization: result.rows[0]
-    });
+});
+
+
+// localhost:5000/api/organizations/2
+// DELETE
+// Delete organization account
+router.delete("/:id", organizationAuth, async (req, res) => {
+
+    try {
+
+        const result = await pgclient.query(
+            `DELETE FROM users
+             WHERE user_id = $1
+             AND role = 'organization'
+             RETURNING user_id`,
+            [req.params.id]
+        );
+
+
+        if (result.rows.length === 0) {
+
+            return res.status(404).json({
+                message: "Organization not found"
+            });
+
+        }
+
+
+        res.json({
+            message: "Organization account deleted successfully"
+        });
+
+    }
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            message: "Could not delete organization account"
+        });
+
+    }
 
 });
 
