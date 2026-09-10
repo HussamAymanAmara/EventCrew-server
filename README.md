@@ -23,101 +23,16 @@ The EventCrew backend uses the following technologies:
 
 Follow these steps to run the EventCrew backend locally.
 
-### 1. Install Node.js
-
-The backend requires **Node.js** and **npm**.
-
-Download and install Node.js from:
-
-```text
-https://nodejs.org/
-```
-
-npm is installed automatically with Node.js.
-
-After installation, check that Node.js is available:
-
-```bash
-node --version
-```
-
-Check npm:
-
-```bash
-npm --version
-```
-
-Both commands should display installed version numbers.
-
----
-
-### 2. Install PostgreSQL
-
-EventCrew uses PostgreSQL as its database.
-
-Download and install PostgreSQL from:
-
-```text
-https://www.postgresql.org/
-```
-
-During the PostgreSQL installation:
-
-1. Remember the PostgreSQL username.
-2. Remember the password you create.
-3. Keep the default PostgreSQL port `5432` unless you need a different port.
-
-You can also install **pgAdmin 4** to manage the database using a graphical interface.
-
----
-
-### 3. Install Git
-
-Git is required to clone the repository from GitHub.
-
-Download Git from:
-
-```text
-https://git-scm.com/
-```
-
-Check the installation:
-
-```bash
-git --version
-```
-
----
-
-### 4. Clone the repository
-
-Open PowerShell, Command Prompt, Git Bash, or the VS Code terminal.
-
-Run:
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/HussamAymanAmara/EventCrew-server.git
-```
-
----
-
-### 5. Open the backend folder
-
-Move into the project:
-
-```bash
 cd EventCrew-server
 ```
 
-If you are using Visual Studio Code, you can open the project with:
-
-```bash
-code .
-```
-
 ---
 
-### 6. Install the backend dependencies
+### 2. Install the backend dependencies
 
 Run:
 
@@ -125,149 +40,59 @@ Run:
 npm install
 ```
 
-This installs all packages listed in `package.json`.
+This installs all dependencies listed in `package.json`, including:
 
-The main packages used by the backend are:
+- Express
+- pg
+- dotenv
+- cors
+- morgan
+- nodemon
 
-```text
-express
-pg
-dotenv
-cors
-morgan
-nodemon
-```
-
-After installation, npm creates the:
-
-```text
-node_modules/
-```
-
-folder automatically.
-
-You do not need to manually install each package separately.
+There is no need to install these packages separately.
 
 ---
 
-### 7. Create the PostgreSQL database
+### 3. Set up the PostgreSQL database
 
-Open **pgAdmin 4** or PostgreSQL command line tools.
+Create a PostgreSQL database for EventCrew and make sure the required database schema and tables are added.
 
-Create a new PostgreSQL database for EventCrew.
+The main database tables include:
 
-Example database name:
+- `users`
+- `volunteer_profiles`
+- `organization_profiles`
+- `organization_types`
+- `categories`
+- `skills`
+- `volunteer_skills`
+- `opportunities`
+- `opportunity_skills`
+- `opportunity_images`
+- `applications`
 
-```text
-EventCrew
-```
-
-The database must contain the tables required by the application, including:
-
-```text
-users
-volunteer_profiles
-organization_profiles
-organization_types
-categories
-skills
-volunteer_skills
-opportunities
-opportunity_skills
-opportunity_images
-applications
-```
-
-Make sure the EventCrew database schema is created before starting the backend.
+Make sure PostgreSQL is running before starting the backend.
 
 ---
 
-### 8. Create the `.env` file
+### 4. Create the environment file
 
-The repository contains a:
+Create a `.env` file in the root of the project.
 
-```text
-.env.sample
-```
-
-file showing the required environment variables.
-
-Create a new file in the root of the project named:
-
-```text
-.env
-```
-
-The backend folder should contain:
-
-```text
-EventCrew-server/
-├── .env
-├── .env.sample
-├── package.json
-├── server.js
-└── ...
-```
-
-Add the following configuration:
+Add:
 
 ```env
 PORT=5000
 DATABASE_URL=postgresql://username:password@localhost:5432/EventCrew
 ```
 
-Replace:
+Replace `username` and `password` with your PostgreSQL credentials.
 
-```text
-username
-```
-
-with your PostgreSQL username.
-
-Replace:
-
-```text
-password
-```
-
-with your PostgreSQL password.
-
-Replace:
-
-```text
-EventCrew
-```
-
-with your database name if you used a different name.
-
-Example:
-
-```env
-PORT=5000
-DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/EventCrew
-```
-
-Do not upload your real `.env` file containing your database password to GitHub.
-
-The `.env.sample` file is provided as an example of the required configuration.
+A `.env.sample` file is also included in the repository as an example.
 
 ---
 
-### 9. Make sure PostgreSQL is running
-
-Before starting EventCrew, make sure the PostgreSQL service is running.
-
-The backend connects to PostgreSQL using:
-
-```env
-DATABASE_URL
-```
-
-If PostgreSQL is stopped or the connection information is incorrect, the server will not be able to connect to the database.
-
----
-
-### 10. Start the backend server
+### 5. Start the backend
 
 Run:
 
@@ -275,23 +100,13 @@ Run:
 npm start
 ```
 
-You can also start it directly with:
-
-```bash
-node server.js
-```
-
-When the server starts successfully, it should display:
+The backend should run on:
 
 ```text
-Server running on http://localhost:5000
+http://localhost:5000
 ```
 
----
-
-### 11. Test the server
-
-Open your browser and visit:
+To confirm that the server is running, open:
 
 ```text
 http://localhost:5000
@@ -303,13 +118,11 @@ You should receive:
 EventCrew API is running
 ```
 
-This confirms that the Express server is running successfully.
-
 ---
 
-### 12. Start the EventCrew frontend
+### 6. Run the frontend
 
-The EventCrew frontend should run separately from the backend.
+The EventCrew frontend runs separately and communicates with this backend.
 
 Frontend repository:
 
@@ -329,49 +142,7 @@ while the backend runs on:
 http://localhost:5000
 ```
 
-Both must be running at the same time to use the complete EventCrew application.
-
-Example:
-
-```text
-Terminal 1
-EventCrew-server
-→ http://localhost:5000
-
-Terminal 2
-EventCrew-client
-→ http://localhost:5173
-```
-
----
-
-### 13. Stop the server
-
-To stop the backend server, return to its terminal and press:
-
-```text
-Ctrl + C
-```
-
----
-
-### Quick start after the first setup
-
-After PostgreSQL, the database, `.env`, and dependencies have already been configured:
-
-```bash
-cd EventCrew-server
-npm install
-npm start
-```
-
-The server should then be available at:
-
-```text
-http://localhost:5000
-```
-
----
+Both should be running to use the complete EventCrew application.
 
 ## 🗂️ Project Structure
 
